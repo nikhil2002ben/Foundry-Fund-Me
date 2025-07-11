@@ -28,24 +28,15 @@ contract FundMe {
     }
 
     function fund() public payable {
-        require(
-            msg.value.getConversionRate(s_priceFeed) >= MIN_USD,
-            "Didn't send enought ETH"
-        ); // 1e18 = 1ETH
+        require(msg.value.getConversionRate(s_priceFeed) >= MIN_USD, "Didn't send enought ETH"); // 1e18 = 1ETH
         s_funders.push(msg.sender);
-        s_addressToAmountFunded[msg.sender] =
-            s_addressToAmountFunded[msg.sender] +
-            msg.value;
+        s_addressToAmountFunded[msg.sender] = s_addressToAmountFunded[msg.sender] + msg.value;
     }
 
     function withdraw() public onlyOwner {
         //for(/*starting index; ending index; step amount */)
         // Instead of fixed ending index we have passed boolean. When it equates to false the loop will terminate.
-        for (
-            uint256 funderIndex = 0;
-            funderIndex < s_funders.length;
-            funderIndex++
-        ) {
+        for (uint256 funderIndex = 0; funderIndex < s_funders.length; funderIndex++) {
             address funder = s_funders[funderIndex];
             s_addressToAmountFunded[funder] = 0;
         }
@@ -66,9 +57,7 @@ contract FundMe {
         // transfer reverts automatically if it fails, send reverts only if a require statement is used
 
         //3.call
-        (bool callSuccess, ) = payable(msg.sender).call{
-            value: address(this).balance
-        }("");
+        (bool callSuccess,) = payable(msg.sender).call{value: address(this).balance}("");
         require(callSuccess, "Failed to call");
     }
 
@@ -77,11 +66,7 @@ contract FundMe {
         // Instead of fixed ending index we have passed boolean. When it equates to false the loop will terminate.
 
         uint256 funderLength = s_funders.length;
-        for (
-            uint256 funderIndex = 0;
-            funderIndex < funderLength;
-            funderIndex++
-        ) {
+        for (uint256 funderIndex = 0; funderIndex < funderLength; funderIndex++) {
             address funder = s_funders[funderIndex];
             s_addressToAmountFunded[funder] = 0;
         }
@@ -102,9 +87,7 @@ contract FundMe {
         // transfer reverts automatically if it fails, send reverts only if a require statement is used
 
         //3.call
-        (bool callSuccess, ) = payable(msg.sender).call{
-            value: address(this).balance
-        }("");
+        (bool callSuccess,) = payable(msg.sender).call{value: address(this).balance}("");
         require(callSuccess, "Failed to call");
     }
 
@@ -123,9 +106,7 @@ contract FundMe {
 
     // Pure, View Functions
 
-    function getAddressToAmountFunded(
-        address funder
-    ) external view returns (uint256) {
+    function getAddressToAmountFunded(address funder) external view returns (uint256) {
         return s_addressToAmountFunded[funder];
     }
 

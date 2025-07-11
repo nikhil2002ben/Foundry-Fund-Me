@@ -82,10 +82,7 @@ contract FundMeTest is Test {
         uint256 endingOwnerBalance = fundMe.getOwner().balance;
 
         // Assertion
-        assertEq(
-            endingOwnerBalance,
-            startingOwnerBalance + startingContractBalance
-        );
+        assertEq(endingOwnerBalance, startingOwnerBalance + startingContractBalance);
         assertEq(address(fundMe).balance, 0);
     }
 
@@ -111,10 +108,7 @@ contract FundMeTest is Test {
         uint256 endingOwnerBalance = fundMe.getOwner().balance;
 
         assertEq(address(fundMe).balance, 0);
-        assertEq(
-            endingOwnerBalance,
-            startingOwnerBalance + startingContractBalance
-        );
+        assertEq(endingOwnerBalance, startingOwnerBalance + startingContractBalance);
     }
 
     function testWithdrawWithMultipleFundersCheaper() public funded {
@@ -139,9 +133,6 @@ contract FundMeTest is Test {
         uint256 endingOwnerBalance = fundMe.getOwner().balance;
 
         assertEq(address(fundMe).balance, 0);
-        assertEq(
-            endingOwnerBalance,
-            startingOwnerBalance + startingContractBalance
-        );
+        assertEq(endingOwnerBalance, startingOwnerBalance + startingContractBalance);
     }
 }
